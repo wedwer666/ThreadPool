@@ -9,16 +9,17 @@ import java.util.stream.Stream;
 public class RunnableMainClass {
     static AtomicInteger genNum = new AtomicInteger(0);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         List<RunnableExample> testListRan = Stream.generate(()->new RunnableExample()).limit(9).collect(Collectors.toList());
         ExecutorService executor = Executors.newFixedThreadPool(3);
-        int sum = 0;
         for (int i = 0; i < 9; i++) {
             executor.submit(testListRan.get(i));
-
-
         }
+        executor.shutdown();
+        Thread.sleep(1000);
+        System.out.println("Suma numerelor generate este " + RunnableExample.suma);
+
 
     }
 }
